@@ -1,5 +1,6 @@
 import ballerina/http;
 import ballerina/time;
+// import ballerina/io;
 
 type Book record {|
     readonly int id;
@@ -57,7 +58,14 @@ service / on new http:Listener(8080) {
 
     resource function post books(NewBook book) returns http:Created|error {
         lock {
-            books.add({id: books.length() + 1, ...book.cloneReadOnly()});
+            // sort the books by id
+            Book[] sorted= from var e in books order by e.id ascending select e;
+            // foreach var item in sorted {
+            //     io:println(item.id," ", item.author);
+            // }
+            // get the last id from sorted list
+            var lastId = sorted[sorted.length() - 1].id;
+            books.add({id: lastId+1, ...book.cloneReadOnly()});
             return http:CREATED;
         }
     }
@@ -71,6 +79,8 @@ service / on new http:Listener(8080) {
                 };
                 return bookNotFound.cloneReadOnly();
             }
+            // remove the book from the table
+            _ = books.remove(id);
             return book.cloneReadOnly();
         }
     }

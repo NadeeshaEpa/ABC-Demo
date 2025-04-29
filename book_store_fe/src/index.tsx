@@ -17,8 +17,8 @@ const root = ReactDOM.createRoot(
 const authConfig = {
   clientID: CLIENT_ID || "",
   baseUrl: BASE_URL || "",
-  signInRedirectURL: SIGN_IN_REDIRECT_URL || "",
-  signOutRedirectURL: SIGN_OUT_REDIRECT_URL || "",
+  signInRedirectURL: SIGN_IN_REDIRECT_URL || "https://wso2.com",
+  signOutRedirectURL: SIGN_OUT_REDIRECT_URL || "https://wso2.com",
   scope: ["openid", "profile", "email"],
 };
 
@@ -27,5 +27,15 @@ root.render(
     <AuthProvider config={authConfig}>
       <App />
     </AuthProvider>
+    {/* <AuthProvider 
+      config={ {
+            signInRedirectURL: "https://localhost:3000",
+            signOutRedirectURL: "https://localhost:3000",
+            clientID: "hJ23VjeHg2mUjR7Tsx0YfsZtRAMa",
+            baseUrl: "https://api.asgardeo.io/t/org1s67h",
+            scope: [ "openid","profile" ]
+        } }>
+      <App />
+    </AuthProvider> */}
   </React.StrictMode>
 );
